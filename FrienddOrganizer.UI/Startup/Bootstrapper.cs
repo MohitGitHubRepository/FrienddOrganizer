@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FrienddOrganizer.UI.DataService;
 using FrienddOrganizer.UI.ViewModel;
+using FriendsOrganizer.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace FrienddOrganizer.UI.Startup
         public IContainer Bootstrap()
         {
             var Builder= new ContainerBuilder();
+            Builder.RegisterType<FriendSeviceDBContext>().AsSelf();
             Builder.RegisterType<MainWindow>().AsSelf();
             Builder.RegisterType<MainViewModel>().AsSelf();
             Builder.RegisterType<FriendsDataService>().As<IFriendsDataService>();
