@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Autofac;
+using FrienddOrganizer.UI.DataService;
+using FrienddOrganizer.UI.Startup;
+using FrienddOrganizer.UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +17,13 @@ namespace FrienddOrganizer.UI
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var bootstrapper = new Bootstrapper();
+            var container = bootstrapper.Bootstrap();
+            var mainwindow = container.Resolve<MainWindow>();
+
+            mainwindow.Show();
+        }
     }
 }
