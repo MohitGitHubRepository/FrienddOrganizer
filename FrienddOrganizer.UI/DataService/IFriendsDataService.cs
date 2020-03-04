@@ -6,6 +6,6 @@ namespace FrienddOrganizer.UI.DataService
 {
     public interface IFriendsDataService
     {
-        Task<List<Friend>> getAllFriends();
+        Task<Friend> getFriendById(int Id);
     }
 }

@@ -7,16 +7,18 @@ namespace FrienddOrganizer.UI.ViewModel
 {
     public class MainViewModel : Observable
     {
-        public INavigationViewModel _navigationViewModel { get; }
+        public INavigationViewModel NavigationViewModel { get; }
+        public IFriendDetailViewModel FriendDetailViewModel { get; set; }
 
-        public MainViewModel(INavigationViewModel  navigationViewModel)
+        public MainViewModel(INavigationViewModel  navigationViewModel, IFriendDetailViewModel friendDetailViewModel)
         {
-            _navigationViewModel = navigationViewModel;
+            NavigationViewModel = navigationViewModel;
+            FriendDetailViewModel = friendDetailViewModel;
         }
 
         public async Task Load()
         {
-            await _navigationViewModel.LoadAsync();
+            await NavigationViewModel.LoadAsync();
         }
        
 

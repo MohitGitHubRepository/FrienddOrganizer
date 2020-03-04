@@ -17,11 +17,11 @@ namespace FrienddOrganizer.UI.DataService
         {
             _context = context;
         }
-        public async  Task<List<Friend>> getAllFriends()
+        public async  Task<Friend> getFriendById(int Id)
         {
             using (var ctx = _context())
             {
-                return await ctx.Friends.AsNoTracking().ToListAsync();
+                return await ctx.Friends.AsNoTracking().SingleAsync(f=> f.Id==Id);
             }
         }
     }
