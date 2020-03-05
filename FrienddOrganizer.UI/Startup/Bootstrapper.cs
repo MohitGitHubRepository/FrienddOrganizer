@@ -2,6 +2,7 @@
 using FrienddOrganizer.UI.DataService;
 using FrienddOrganizer.UI.ViewModel;
 using FriendsOrganizer.DataAccess;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace FrienddOrganizer.UI.Startup
             Builder.RegisterType<FriendSeviceDBContext>().AsSelf();
             Builder.RegisterType<MainWindow>().AsSelf();
             Builder.RegisterType<MainViewModel>().AsSelf();
+            Builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
             Builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             Builder.RegisterType<FriendDetailViewModel>().As<IFriendDetailViewModel>();
             Builder.RegisterType<FriendsDataService>().As<IFriendsDataService>();

@@ -1,5 +1,7 @@
 ﻿using FrienddOrganizer.UI.DataService;
+using FrienddOrganizer.UI.Events;
 using FriendsOrganizer.Modles;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,10 +17,13 @@ namespace FrienddOrganizer.UI.ViewModel
 
         public ObservableCollection<LookUpItem> FriendsLookUp { get; set; }
 
-        public NavigationViewModel(ILookupDataService context)
+        private IEventAggregator _eventAggregator;
+
+        public NavigationViewModel(ILookupDataService context,IEventAggregator eventAggregator)
         {
             _context = context;
             FriendsLookUp = new ObservableCollection<LookUpItem>();
+            _eventAggregator = eventAggregator;
         }
 
         public async Task LoadAsync()
@@ -30,7 +35,24 @@ namespace FrienddOrganizer.UI.ViewModel
                 FriendsLookUp.Add(item);
             }
         }
-        
+
+        private LookUpItem _selecteedItem;
+
+        public LookUpItem SelectedItem
+        {
+            get { return _selecteedItem; }
+            set
+            {
+                _selecteedItem = value;
+                OnPropertChange();
+                if(_eventAggregator!=null)
+                {
+                    _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Publish(_selecteedItem.Id);
+                }
+            }
+
+        }
+
 
     }
 }
