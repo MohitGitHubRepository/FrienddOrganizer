@@ -89,12 +89,15 @@
     <Compile Include="DataService\IFriendsDataService.cs" />
     <Compile Include="DataService\ILookupDataService.cs" />
     <Compile Include="DataService\LookupDataService.cs" />
+    <Compile Include="Events\NavigationPropertyUpdate.cs" />
+    <Compile Include="Events\NavigationPropertyUpdateArgs.cs" />
     <Compile Include="Events\OpenFriendDetailViewEvent.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="ViewModel\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\IFriendDetailViewModel.cs" />
     <Compile Include="ViewModel\INavigationViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\NavigationItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationViewModel.cs" />
     <Compile Include="View\FriendDetailViewModel.xaml.cs">
       <DependentUpon>FriendDetailViewModel.xaml</DependentUpon>

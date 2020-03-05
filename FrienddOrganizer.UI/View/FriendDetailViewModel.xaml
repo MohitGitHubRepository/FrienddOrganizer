@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
@@ -22,6 +23,8 @@
         <TextBox Grid.Row="3" Margin="10 0 10 0"  Text="{Binding Friend.LastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <Label Content="Email" Grid.Row="4" Margin="10 10 10 0"></Label>
         <TextBox Grid.Row="5" Margin="10 0 10 0"  Text="{Binding Friend.Email,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
+        <StackPanel Grid.Row="7" Orientation="Horizontal">
+            <Button Content="Save Friend" Margin="100 10 10 10" Height="50" VerticalAlignment="Center" Command="{Binding SaveCommand,Mode=OneWay}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
