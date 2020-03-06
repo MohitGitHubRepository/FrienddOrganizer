@@ -1,12 +1,9 @@
 ﻿using FrienddOrganizer.UI.DataService;
 using FrienddOrganizer.UI.Events;
+using FrienddOrganizer.UI.Wrapper;
 using FriendsOrganizer.Modles;
 using Prism.Commands;
 using Prism.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -18,6 +15,10 @@ namespace FrienddOrganizer.UI.ViewModel
 
         private IEventAggregator _eventAggregators;
 
+        public ICommand SaveCommand { get; }
+
+        private FriendWrapper _friend;
+
         public FriendDetailViewModel(IFriendsDataService friendsDataService, IEventAggregator eventAggregator)
         {
             _friendsDataService = friendsDataService;
@@ -27,38 +28,20 @@ namespace FrienddOrganizer.UI.ViewModel
 
         }
 
-        private bool OnSaveCanExecute()
-        {
-            //Button binds this method to IsEnabledProperty
-            return true;
-        }
-
-        private async void OnSaveExecute()
-        {
-            await _friendsDataService.SaveAsync(Friend);
-            _eventAggregators.GetEvent<NavigationPropertyUpdateEvent>()
-                          .Publish(new NavigationPropertyUpdateArgs() { Id = Friend.Id, Description = $"{Friend.FirstName} {Friend.LastName}" });
-        }
-
-        private async void OnEventRecieved(int FriendId)
-        {
-            await this.LoadAsync(FriendId);
-         
-        }
-
         public async Task LoadAsync(int Id)
         {
             var friend = await _friendsDataService.getFriendById(Id);
-
-            if(friend!=null)
+         
+            if (friend != null)
             {
-                Friend = friend;
+                Friend = new FriendWrapper(friend);
             }
 
         }
-        private Friend  _friend;
 
-        public Friend Friend
+
+
+        public FriendWrapper Friend
         {
             get { return _friend; }
             set
@@ -68,8 +51,28 @@ namespace FrienddOrganizer.UI.ViewModel
 
             }
         }
+        private bool OnSaveCanExecute()
+        {
+            //Button binds this method to IsEnabledProperty
+            return true;
+        }
 
-        public ICommand SaveCommand { get; }
+        private async void OnSaveExecute()
+        {
+            await _friendsDataService.SaveAsync(Friend.Model);
+            _eventAggregators.GetEvent<NavigationPropertyUpdateEvent>()
+                          .Publish(new NavigationPropertyUpdateArgs() { Id = Friend.Model.Id, Description = $"{Friend.FirstName} {Friend.LastName}" });
+        }
+
+        private async void OnEventRecieved(int FriendId)
+        {
+            await this.LoadAsync(FriendId);
+
+        }
+
+
+
+
 
 
 
