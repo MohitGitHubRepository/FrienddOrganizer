@@ -13,7 +13,7 @@ namespace FriendsOrganizer.Modles
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertChange([CallerMemberName]string callername = null)
-        {
+     {
             PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(callername));
         }
     }

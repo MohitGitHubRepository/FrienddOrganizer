@@ -86,9 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataService\IFriendsDataService.cs" />
-    <Compile Include="DataService\ILookupDataService.cs" />
-    <Compile Include="DataService\LookupDataService.cs" />
+    <Compile Include="DataService\LookupService\ILookupDataService.cs" />
+    <Compile Include="DataService\LookupService\LookupDataService.cs" />
+    <Compile Include="DataService\Repository\IFriendsRepository.cs" />
     <Compile Include="Events\NavigationPropertyUpdate.cs" />
     <Compile Include="Events\NavigationPropertyUpdateArgs.cs" />
     <Compile Include="Events\OpenFriendDetailViewEvent.cs" />
@@ -116,7 +116,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataService\FriendsDataService.cs" />
+    <Compile Include="DataService\Repository\FriendsRepository.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

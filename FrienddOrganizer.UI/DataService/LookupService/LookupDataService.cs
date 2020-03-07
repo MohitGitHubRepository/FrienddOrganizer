@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using FriendsOrganizer.Modles;
 using System.Data.Entity;
 
-namespace FrienddOrganizer.UI.DataService
+namespace FrienddOrganizer.UI.DataService.LookupService
 {
     public class LookupDataService : ILookupDataService
     {
