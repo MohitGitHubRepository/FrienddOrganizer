@@ -24,7 +24,8 @@
         <Label Content="Email" Grid.Row="4" Margin="10 10 10 0"></Label>
         <TextBox Grid.Row="5" Margin="10 0 0 0"  Text="{Binding Friend.Email,TargetNullValue='', Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
         <StackPanel Grid.Row="6" Orientation="Horizontal">
-            <Button Content="Save Friend" Margin="10 10 0 0" Height="Auto" VerticalAlignment="Center" Command="{Binding SaveCommand,Mode=OneWay}" />
+            <Button Content="Save Friend" Margin="10 20 0 0" Height="Auto" VerticalAlignment="Center" Command="{Binding SaveCommand,Mode=OneWay}" />
+            <Button Content="Delete Friend" Margin="10 20 0 0" Height="Auto" VerticalAlignment="Center" Command="{Binding DeleteCommand,Mode=OneWay}" />
         </StackPanel>
     </Grid>
 </UserControl>

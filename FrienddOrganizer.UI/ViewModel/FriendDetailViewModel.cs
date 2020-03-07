@@ -19,6 +19,8 @@ namespace FrienddOrganizer.UI.ViewModel
 
         public ICommand SaveCommand { get; }
 
+        public ICommand DeleteCommand { get; }
+
         private FriendWrapper _friend;
         private bool hasChanges;
 
@@ -29,7 +31,11 @@ namespace FrienddOrganizer.UI.ViewModel
           
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
 
+            DeleteCommand = new DelegateCommand(OnDeleteCommand);
+
         }
+
+      
 
         public bool HasChanges
         {
@@ -76,7 +82,11 @@ namespace FrienddOrganizer.UI.ViewModel
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
 
         }
-
+        private async void OnDeleteCommand()
+        {
+            _friendsDataService.RemoveFriend(_friend.Model);
+            await _friendsDataService.SaveAsync();
+        }
         private Friend CreateNewFriend()
         {
             var friend = new Friend();
