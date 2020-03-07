@@ -5,7 +5,8 @@ namespace FrienddOrganizer.UI.DataService.Repository
 {
     public interface IFriendsRepository
     {
-        Task<Friend> getFriendById(int Id);
+        Task<Friend> getFriendById(int? Id);
+        void AddFriend(Friend friend);
         Task SaveAsync();
         bool HasChanges();
     }

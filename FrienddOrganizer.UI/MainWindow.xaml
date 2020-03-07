@@ -8,14 +8,22 @@
         mc:Ignorable="d"
         Title="FriendOrganizer" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.Children>
-
-            <view:NavigationView Grid.Column="0" DataContext="{Binding NavigationViewModel,Mode=OneWay}"> </view:NavigationView>
-            <view:FriendDetailViewModel  Grid.Column="1" DataContext="{Binding FriendDetailViewModel,Mode=OneWay}"></view:FriendDetailViewModel>
+            <Menu Grid.Row="0" Grid.ColumnSpan="2">
+                <MenuItem Header="Create">
+                    <MenuItem Header="New Friend" Command="{Binding OnNewCreateCommand,Mode=OneWay}"/>
+                </MenuItem>
+            </Menu>
+            <view:NavigationView Grid.Row="1" Grid.Column="0" DataContext="{Binding NavigationViewModel,Mode=OneWay}"> </view:NavigationView>
+            <view:FriendDetailViewModel Grid.Row="1"  Grid.Column="1" DataContext="{Binding FriendDetailViewModel,Mode=OneWay}"></view:FriendDetailViewModel>
             
             
         </Grid.Children>

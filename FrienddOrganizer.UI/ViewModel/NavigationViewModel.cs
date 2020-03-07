@@ -34,6 +34,10 @@ namespace FrienddOrganizer.UI.ViewModel
             {
                 friend.Description = updatedItem.Description;
             }
+            else
+            {
+                FriendsLookUp.Add(new NavigationItemViewModel(updatedItem.Id,updatedItem.Description, _eventAggregator) );
+            }
         }
 
         public async Task LoadAsync()

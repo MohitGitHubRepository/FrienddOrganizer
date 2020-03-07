@@ -5,6 +5,7 @@ using FrienddOrganizer.UI.Wrapper;
 using FriendsOrganizer.Modles;
 using Prism.Commands;
 using Prism.Events;
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -55,9 +56,10 @@ namespace FrienddOrganizer.UI.ViewModel
             }
         }
 
-        public async Task LoadAsync(int Id)
+        public async Task LoadAsync(int? Id)
         {
-            var friend = await _friendsDataService.getFriendById(Id);
+            var friend = Id.HasValue ?
+                await _friendsDataService.getFriendById(Id.Value):CreateNewFriend();
                 Friend = new FriendWrapper(friend);
               
             Friend.PropertyChanged += (s, e) =>
@@ -74,8 +76,13 @@ namespace FrienddOrganizer.UI.ViewModel
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
 
         }
-       
 
+        private Friend CreateNewFriend()
+        {
+            var friend = new Friend();
+            _friendsDataService.AddFriend(friend);
+            return friend;
+        }
 
         private bool OnSaveCanExecute()
         {

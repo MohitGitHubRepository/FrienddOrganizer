@@ -2,11 +2,13 @@
 using FrienddOrganizer.UI.Events;
 using FrienddOrganizer.UI.Services;
 using FriendsOrganizer.Modles;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace FrienddOrganizer.UI.ViewModel
 {
@@ -15,7 +17,7 @@ namespace FrienddOrganizer.UI.ViewModel
         private IEventAggregator _eventAggregators;
         private IMessageDialogueService _IMessageDialogueService;
         private IFriendDetailViewModel _friendDetailviewModel;
-        
+        public ICommand OnNewCreateCommand { get; }
 
         public IFriendDetailViewModel FriendDetailViewModel
         {
@@ -36,8 +38,15 @@ namespace FrienddOrganizer.UI.ViewModel
             NavigationViewModel = navigationViewModel;
             friendDetailViewModelcreator = IFriendDetailViewModel;
             _eventAggregators.GetEvent<OpenFriendDetailViewEvent>().Subscribe(OnEventRecieved);
+            OnNewCreateCommand = new DelegateCommand(OnNewFriendAdd);
         }
-        private async void OnEventRecieved(int FriendId)
+
+        private void OnNewFriendAdd()
+        {
+            OnEventRecieved(null);
+        }
+
+        private async void OnEventRecieved(int? FriendId)
         {
             if(FriendDetailViewModel!=null && FriendDetailViewModel.HasChanges)
             {

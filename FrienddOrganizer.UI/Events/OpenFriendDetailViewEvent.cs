@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FrienddOrganizer.UI.Events
 {
-    public class OpenFriendDetailViewEvent:PubSubEvent<int>
+    public class OpenFriendDetailViewEvent:PubSubEvent<int?>
     {
     }
 }
