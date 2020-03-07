@@ -6,9 +6,16 @@
              xmlns:local="clr-namespace:FrienddOrganizer.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListView  ItemsSource="{Binding FriendsLookUp ,Mode=OneWay}"
-               SelectedItem="{Binding SelectedItem,Mode=TwoWay}"
-                      DisplayMemberPath="Description">
-
-    </ListView>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ItemsControl  ItemsSource="{Binding FriendsLookUp ,Mode=OneWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Description}"
+                    Command="{Binding OpenFriendDetailViewCommand}"></Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

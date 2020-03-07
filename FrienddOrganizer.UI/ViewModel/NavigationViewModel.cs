@@ -42,27 +42,8 @@ namespace FrienddOrganizer.UI.ViewModel
             FriendsLookUp.Clear();
             foreach(var item in lookup)
             {
-                FriendsLookUp.Add(new NavigationItemViewModel(item.Id,item.Desctiption));
+                FriendsLookUp.Add(new NavigationItemViewModel(item.Id,item.Desctiption, _eventAggregator));
             }
         }
-
-        private NavigationItemViewModel _selecteedItem;
-
-        public NavigationItemViewModel SelectedItem
-        {
-            get { return _selecteedItem; }
-            set
-            {
-                _selecteedItem = value;
-                OnPropertChange();
-                if(_eventAggregator!=null)
-                {
-                    _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Publish(_selecteedItem.Id);
-                }
-            }
-
-        }
-
-
     }
 }
