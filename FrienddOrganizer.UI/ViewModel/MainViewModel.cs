@@ -1,16 +1,19 @@
 ﻿using FrienddOrganizer.UI.DataService;
 using FrienddOrganizer.UI.Events;
+using FrienddOrganizer.UI.Services;
 using FriendsOrganizer.Modles;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FrienddOrganizer.UI.ViewModel
 {
     public class MainViewModel : Observable
     {
         private IEventAggregator _eventAggregators;
+        private IMessageDialogueService _IMessageDialogueService;
         private IFriendDetailViewModel _friendDetailviewModel;
         
 
@@ -25,15 +28,26 @@ namespace FrienddOrganizer.UI.ViewModel
         public INavigationViewModel NavigationViewModel { get; }
         public Func<IFriendDetailViewModel> friendDetailViewModelcreator { get; set; }
 
-        public MainViewModel(INavigationViewModel  navigationViewModel, Func<IFriendDetailViewModel> IFriendDetailViewModel,IEventAggregator eventAggregator)
+        public MainViewModel(INavigationViewModel  navigationViewModel, Func<IFriendDetailViewModel> IFriendDetailViewModel,
+                             IEventAggregator eventAggregator, IMessageDialogueService IMessageDialogueService)
         {
             _eventAggregators = eventAggregator;
+            _IMessageDialogueService = IMessageDialogueService;
             NavigationViewModel = navigationViewModel;
             friendDetailViewModelcreator = IFriendDetailViewModel;
             _eventAggregators.GetEvent<OpenFriendDetailViewEvent>().Subscribe(OnEventRecieved);
         }
         private async void OnEventRecieved(int FriendId)
         {
+            if(FriendDetailViewModel!=null && FriendDetailViewModel.HasChanges)
+            {
+                var result = _IMessageDialogueService.SelectOKCancelMessageBox("You have unsaved changes.Navigate?", "Question");
+
+                if(result== MessageDialogueStatus.Cancel)
+                {
+                    return;
+                }
+            }
             FriendDetailViewModel = friendDetailViewModelcreator();
             await FriendDetailViewModel.LoadAsync(FriendId);
 

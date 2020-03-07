@@ -19,6 +19,7 @@ namespace FrienddOrganizer.UI.ViewModel
         public ICommand SaveCommand { get; }
 
         private FriendWrapper _friend;
+        private bool hasChanges;
 
         public FriendDetailViewModel(IFriendsRepository friendsDataService, IEventAggregator eventAggregator)
         {
@@ -27,6 +28,31 @@ namespace FrienddOrganizer.UI.ViewModel
           
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
 
+        }
+
+        public bool HasChanges
+        {
+            get { return hasChanges; }
+            set
+            {
+                if (hasChanges != value)
+                {
+                    hasChanges = value;
+                    OnPropertChange();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                }
+
+            }
+        }
+
+        public FriendWrapper Friend
+        {
+            get { return _friend; }
+            set
+            {
+                _friend = value;
+                OnPropertChange();
+            }
         }
 
         public async Task LoadAsync(int Id)
@@ -48,32 +74,9 @@ namespace FrienddOrganizer.UI.ViewModel
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
 
         }
-        private bool hasChanges;
+       
 
-        public bool HasChanges
-        {
-            get { return hasChanges; }
-            set {
-                if (hasChanges != value)
-                {
-                    hasChanges = value;
-                    OnPropertChange();
-                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-                }
 
-            }
-        }
-
-        public FriendWrapper Friend
-        {
-            get { return _friend; }
-            set
-            {
-                _friend = value;
-                OnPropertChange();
-
-            }
-        }
         private bool OnSaveCanExecute()
         {
             //TODO:Che checkIn changes only if friend has changes
