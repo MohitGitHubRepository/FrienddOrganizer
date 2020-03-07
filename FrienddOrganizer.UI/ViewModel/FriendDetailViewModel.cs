@@ -31,11 +31,15 @@ namespace FrienddOrganizer.UI.ViewModel
         public async Task LoadAsync(int Id)
         {
             var friend = await _friendsDataService.getFriendById(Id);
-         
-            if (friend != null)
-            {
                 Friend = new FriendWrapper(friend);
-            }
+            Friend.PropertyChanged += (s, e) =>
+             {
+                 if (e.PropertyName == nameof(Friend.HasErrors))
+                 {
+                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+                 }
+             };
+           
 
         }
 
@@ -53,8 +57,8 @@ namespace FrienddOrganizer.UI.ViewModel
         }
         private bool OnSaveCanExecute()
         {
-            //Button binds this method to IsEnabledProperty
-            return true;
+            //TODO:Che checkIn changes only if friend has changes
+            return Friend != null && !Friend.HasErrors;
         }
 
         private async void OnSaveExecute()
