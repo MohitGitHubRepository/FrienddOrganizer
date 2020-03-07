@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace FrienddOrganizer.UI.Wrapper
@@ -22,16 +23,33 @@ namespace FrienddOrganizer.UI.Wrapper
         {
              typeof(T).GetProperty(propertyName).SetValue(Model,value);
              OnPropertChange(propertyName);
-            ValidatePropertyInternal(propertyName);
+            ValidatePropertyInternal(propertyName,value);
         }
 
-        private void ValidatePropertyInternal(string propertyName)
+        private void ValidatePropertyInternal(string propertyName,object value)
         {
             CleanErrors(propertyName);
-            var errors = ValidateProperty(propertyName);
-            if(errors!=null)
+            ValidateDataAnnotations(propertyName, value);
+            ValidateCustomRules(propertyName);
+        }
+
+        private void ValidateDataAnnotations(string propertyName, object value)
+        {
+            var result = new List<ValidationResult>();
+            var context = new ValidationContext(Model) { MemberName = propertyName };
+            Validator.TryValidateProperty(value, context, result);
+            foreach (var err in result)
             {
-                foreach(var error in errors)
+                AddError(propertyName, err.ErrorMessage);
+            }
+        }
+
+        private void ValidateCustomRules(string propertyName)
+        {
+            var errors = ValidateProperty(propertyName);
+            if (errors != null)
+            {
+                foreach (var error in errors)
                 {
                     AddError(propertyName, error);
                 }
