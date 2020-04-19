@@ -1,6 +1,7 @@
 ﻿using FrienddOrganizer.UI.DataService;
 using FrienddOrganizer.UI.DataService.Repository;
 using FrienddOrganizer.UI.Events;
+using FrienddOrganizer.UI.Services;
 using FrienddOrganizer.UI.Wrapper;
 using FriendsOrganizer.Modles;
 using Prism.Commands;
@@ -16,6 +17,7 @@ namespace FrienddOrganizer.UI.ViewModel
         private IFriendsRepository _friendsDataService { get; }
 
         private IEventAggregator _eventAggregators;
+        private IMessageDialogueService _IMessageDialogueService;
 
         public ICommand SaveCommand { get; }
 
@@ -24,12 +26,12 @@ namespace FrienddOrganizer.UI.ViewModel
         private FriendWrapper _friend;
         private bool hasChanges;
 
-        public FriendDetailViewModel(IFriendsRepository friendsDataService, IEventAggregator eventAggregator)
+        public FriendDetailViewModel(IFriendsRepository friendsDataService, IEventAggregator eventAggregator,IMessageDialogueService IMessageDialogueService)
         {
             _friendsDataService = friendsDataService;
             _eventAggregators = eventAggregator;
-          
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            _IMessageDialogueService = IMessageDialogueService;
+              SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
 
             DeleteCommand = new DelegateCommand(OnDeleteCommand);
 
@@ -84,8 +86,16 @@ namespace FrienddOrganizer.UI.ViewModel
         }
         private async void OnDeleteCommand()
         {
-            _friendsDataService.RemoveFriend(_friend.Model);
-            await _friendsDataService.SaveAsync();
+            var result = _IMessageDialogueService.SelectOKCancelMessageBox($"Do you confirm to delete {Friend.FirstName} {Friend.FirstName} ?", "Confirm");
+            if (result == MessageDialogueStatus.Ok)
+            {
+                _friendsDataService.RemoveFriend(_friend.Model);
+                await _friendsDataService.SaveAsync();
+                _eventAggregators.GetEvent<NavigationPropertyDeleteEvent>()
+                             .Publish(Friend.Model.Id);
+                Friend = null;
+            }
+
         }
         private Friend CreateNewFriend()
         {

@@ -38,7 +38,13 @@ namespace FrienddOrganizer.UI.ViewModel
             NavigationViewModel = navigationViewModel;
             friendDetailViewModelcreator = IFriendDetailViewModel;
             _eventAggregators.GetEvent<OpenFriendDetailViewEvent>().Subscribe(OnEventRecieved);
+            _eventAggregators.GetEvent<NavigationPropertyDeleteEvent>().Subscribe(OnDeletetRecieved);
             OnNewCreateCommand = new DelegateCommand(OnNewFriendAdd);
+        }
+
+        private void OnDeletetRecieved(int obj)
+        {
+            FriendDetailViewModel = null;
         }
 
         private void OnNewFriendAdd()

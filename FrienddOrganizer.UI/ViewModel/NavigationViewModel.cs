@@ -25,6 +25,17 @@ namespace FrienddOrganizer.UI.ViewModel
             FriendsLookUp = new ObservableCollection<NavigationItemViewModel>();
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<NavigationPropertyUpdateEvent>().Subscribe(NavigationModelUpdated);
+            _eventAggregator.GetEvent<NavigationPropertyDeleteEvent>().Subscribe(NavigationModelDeleted);
+        }
+
+        private void NavigationModelDeleted(int Id)
+        {
+            var friend = FriendsLookUp.Where(a => a.Id == Id).FirstOrDefault();
+            if (friend != null)
+            {
+                FriendsLookUp.Remove(friend);
+            }
+
         }
 
         private void NavigationModelUpdated(NavigationPropertyUpdateArgs updatedItem)

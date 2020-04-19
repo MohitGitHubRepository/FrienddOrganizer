@@ -89,6 +89,7 @@
     <Compile Include="DataService\LookupService\ILookupDataService.cs" />
     <Compile Include="DataService\LookupService\LookupDataService.cs" />
     <Compile Include="DataService\Repository\IFriendsRepository.cs" />
+    <Compile Include="Events\NavigationPropertyDeleteEvent.cs" />
     <Compile Include="Events\NavigationPropertyUpdate.cs" />
     <Compile Include="Events\NavigationPropertyUpdateArgs.cs" />
     <Compile Include="Events\OpenFriendDetailViewEvent.cs" />
