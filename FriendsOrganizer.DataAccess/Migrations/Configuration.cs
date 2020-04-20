@@ -24,13 +24,16 @@
             //   new ProgrammingLanguage() { Name = "C++" }
             //   );
 
-            context.Friends.AddOrUpdate(f => f.FirstName,
-                new Friend() { FirstName = "Thomas", LastName = "Huber", ProgrammingLanguageID = 1 },
-                new Friend() { FirstName = "Mohit", LastName = "Kumar", ProgrammingLanguageID = 2 },
-                new Friend() { FirstName = "Kretee", LastName = "Arora", ProgrammingLanguageID = 3 },
-                new Friend() { FirstName = "Pawan", LastName = "Kumar", ProgrammingLanguageID = 4 },
-                new Friend() { FirstName = "Shivam", LastName = "Rathore", ProgrammingLanguageID = 1 });
+            //context.Friends.AddOrUpdate(f => f.FirstName,
+            //    new Friend() { FirstName = "Thomas", LastName = "Huber", ProgrammingLanguageID = 1 },
+            //    new Friend() { FirstName = "Mohit", LastName = "Kumar", ProgrammingLanguageID = 2 },
+            //    new Friend() { FirstName = "Kretee", LastName = "Arora", ProgrammingLanguageID = 3 },
+            //    new Friend() { FirstName = "Pawan", LastName = "Kumar", ProgrammingLanguageID = 4 },
+            //    new Friend() { FirstName = "Shivam", LastName = "Rathore", ProgrammingLanguageID = 1 });
 
+            context.FriendPhoneNumber.AddOrUpdate(p => p.Id,
+              new FriendPhoneNumber() { PhoneNumber="789856566", FriendId=1}
+               );
 
         }
     }

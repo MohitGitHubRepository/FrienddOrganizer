@@ -26,7 +26,9 @@ namespace FrienddOrganizer.UI.DataService.Repository
 
         public async  Task<Friend> getFriendById(int? Id)
         {
-                return await _context.Friends.SingleAsync(f=> f.Id==Id);
+                return await _context.Friends
+                .Include(b => b.FriendPhoneNumbers).
+                SingleAsync(f=> f.Id==Id);
         }
         public bool HasChanges()
         {
@@ -36,6 +38,11 @@ namespace FrienddOrganizer.UI.DataService.Repository
         public void RemoveFriend(Friend friend)
         {
              _context.Friends.Remove(friend);  
+        }
+
+        public void RemovePhoneNumber(FriendPhoneNumber model)
+        {
+            _context.FriendPhoneNumber.Remove(model);
         }
 
         public async Task SaveAsync()

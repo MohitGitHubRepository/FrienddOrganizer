@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,10 @@ namespace FriendsOrganizer.Modles
     {
         public int Id { get; set; }
 
+        public Friend()
+        {
+            FriendPhoneNumbers = new Collection<FriendPhoneNumber>();
+        }
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
@@ -25,5 +30,7 @@ namespace FriendsOrganizer.Modles
         public int? ProgrammingLanguageID { get; set; }
 
         public virtual ProgrammingLanguage ProgrammingLanguage { get; set; }
+
+        public ICollection<FriendPhoneNumber> FriendPhoneNumbers { get; set; }
     }
 }

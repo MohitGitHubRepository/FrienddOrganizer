@@ -56,9 +56,9 @@
     <Compile Include="Migrations\202004201140076_InitialMigratoin.designer.cs">
       <DependentUpon>202004201140076_InitialMigratoin.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202004201145315_InitialSeed.cs" />
-    <Compile Include="Migrations\202004201145315_InitialSeed.designer.cs">
-      <DependentUpon>202004201145315_InitialSeed.cs</DependentUpon>
+    <Compile Include="Migrations\202004201511307_PhonenumberAdd.cs" />
+    <Compile Include="Migrations\202004201511307_PhonenumberAdd.designer.cs">
+      <DependentUpon>202004201511307_PhonenumberAdd.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,8 +79,8 @@
     <EmbeddedResource Include="Migrations\202004201140076_InitialMigratoin.resx">
       <DependentUpon>202004201140076_InitialMigratoin.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202004201145315_InitialSeed.resx">
-      <DependentUpon>202004201145315_InitialSeed.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004201511307_PhonenumberAdd.resx">
+      <DependentUpon>202004201511307_PhonenumberAdd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

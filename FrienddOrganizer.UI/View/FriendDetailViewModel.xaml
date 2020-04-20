@@ -29,6 +29,20 @@
         <ComboBox Grid.Row="7" ItemsSource="{Binding ProgrammingLanguageComboBox}" DisplayMemberPath="Desctiption" 
                    SelectedValuePath="Id"
                    SelectedValue="{Binding Friend.ProgrammingLanguageID , Mode=TwoWay}" Margin="10 10"></ComboBox>
+        <DockPanel Grid.Row="8"     Margin="10 0 10 0">
+            <StackPanel DockPanel.Dock="Right">
+                <Button Content="Add" Command="{Binding AddPhoneNumber}" Margin="10 10"/>
+                <Button Content="Remove" Command="{Binding RemovePhoneNumber}" Margin="10 10"/>
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding PhoneNumbers}"
+                     SelectedItem="{Binding SelectedPhoneNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      AutoGenerateColumns="False" RowHeaderWidth="0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Phone Number" Width="*" Binding="{Binding PhoneNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+        </DockPanel>
         <StackPanel Grid.Row="9" Orientation="Horizontal">
             <Button Content="Save Friend" Margin="10 20 0 0" Height="Auto" VerticalAlignment="Center" Command="{Binding SaveCommand,Mode=OneWay}" />
             <Button Content="Delete Friend" Margin="10 20 0 0" Height="Auto" VerticalAlignment="Center" Command="{Binding DeleteCommand,Mode=OneWay}" />

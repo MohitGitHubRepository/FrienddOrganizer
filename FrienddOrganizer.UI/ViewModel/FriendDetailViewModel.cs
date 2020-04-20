@@ -1,5 +1,4 @@
-﻿using FrienddOrganizer.UI.DataService;
-using FrienddOrganizer.UI.DataService.LookupService;
+﻿using FrienddOrganizer.UI.DataService.LookupService;
 using FrienddOrganizer.UI.DataService.Repository;
 using FrienddOrganizer.UI.Events;
 using FrienddOrganizer.UI.Services;
@@ -9,6 +8,8 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -26,9 +27,23 @@ namespace FrienddOrganizer.UI.ViewModel
         private IProgrammingLanguages _IProgrammingLanguages;
 
         public ICommand DeleteCommand { get; }
-        public ObservableCollection<LookUpItem> ProgrammingLanguageComboBox { get; }
+        public ICommand AddPhoneNumber { get; }
 
+        public ICommand RemovePhoneNumber { get; }
+        public ObservableCollection<LookUpItem> ProgrammingLanguageComboBox { get; }
+        public ObservableCollection<FriendPhoneNumberWrapper> PhoneNumbers { get; }
         private FriendWrapper _friend;
+        private FriendPhoneNumberWrapper _selectedphoneNumber;
+
+        public FriendPhoneNumberWrapper SelectedPhoneNumber
+        {
+            get { return _selectedphoneNumber; }
+            set { _selectedphoneNumber = value;
+                OnPropertChange();
+                ((DelegateCommand)RemovePhoneNumber).RaiseCanExecuteChanged();
+            }
+        }
+
         private bool hasChanges;
 
         //  public ObservableCollection<LookUpItem> ProgrammingLanguageComboBox { get; set; }
@@ -40,11 +55,35 @@ namespace FrienddOrganizer.UI.ViewModel
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             _IProgrammingLanguages = IProgrammingLanguages;
             DeleteCommand = new DelegateCommand(OnDeleteCommand);
+            AddPhoneNumber = new DelegateCommand(OnAddPhoneNumber);
+            RemovePhoneNumber = new DelegateCommand(OnRemovePhoneNumber, OnCanRemoveMethod);
             ProgrammingLanguageComboBox = new ObservableCollection<LookUpItem>();
-
+            PhoneNumbers = new ObservableCollection<FriendPhoneNumberWrapper>();
         }
 
+        private bool OnCanRemoveMethod()
+        {
+            return SelectedPhoneNumber!=null;
+        }
 
+        private void OnRemovePhoneNumber()
+        {
+            SelectedPhoneNumber.PropertyChanged -= Friends_PropertyChangedLogic;
+            _friendsDataService.RemovePhoneNumber(SelectedPhoneNumber.Model);
+            this.PhoneNumbers.Remove(SelectedPhoneNumber);
+            HasChanges = _friendsDataService.HasChanges();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        private void OnAddPhoneNumber()
+        {
+            var newNumber = new FriendPhoneNumberWrapper(new FriendPhoneNumber());
+            newNumber.PropertyChanged += Friends_PropertyChangedLogic;
+            PhoneNumbers.Add(newNumber);
+            Friend.Model.FriendPhoneNumbers.Add(newNumber.Model);
+            newNumber.PhoneNumber = ""; 
+
+        }
 
         public bool HasChanges
         {
@@ -76,7 +115,7 @@ namespace FrienddOrganizer.UI.ViewModel
             var friend = Id.HasValue ?
                 await _friendsDataService.getFriendById(Id.Value) : CreateNewFriend();
             await AddProgrammingLanguage(friend);
-
+            PhoneNumbersAddition(Id, friend);
             Friend = new FriendWrapper(friend);
             Friend.PropertyChanged += (s, e) =>
             {
@@ -90,18 +129,47 @@ namespace FrienddOrganizer.UI.ViewModel
                 }
             };
 
+
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
 
+        }
+
+        private void PhoneNumbersAddition(int? Id, Friend friend)
+        { 
+                foreach(var wrapper in PhoneNumbers)
+                {
+                wrapper.PropertyChanged -= Friends_PropertyChangedLogic;
+                     
+                }
+                PhoneNumbers.Clear();
+                foreach (var phone in friend.FriendPhoneNumbers)
+                {
+                var wrapper = new FriendPhoneNumberWrapper(phone);
+                wrapper.PropertyChanged += Friends_PropertyChangedLogic;
+                PhoneNumbers.Add(wrapper);
+
+            }
+             
+        }
+
+        private void Friends_PropertyChangedLogic(object sender, PropertyChangedEventArgs e)
+        {
+            if (!HasChanges)
+            {
+                HasChanges = _friendsDataService.HasChanges();
+            }
+            if (e.PropertyName == nameof(FriendPhoneNumberWrapper.HasErrors))
+            {
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
         }
 
         private async Task AddProgrammingLanguage(Friend friend)
         {
             ProgrammingLanguageComboBox.Clear();
-            
-                ProgrammingLanguageComboBox.Add(new NullLookUpItem() { Desctiption = "-" });
 
-            
-           
+            ProgrammingLanguageComboBox.Add(new NullLookUpItem() { Desctiption = "-" });
+
             var languages = await _IProgrammingLanguages.getProgrammingLanguages();
             foreach (var item in languages)
             {
@@ -132,7 +200,7 @@ namespace FrienddOrganizer.UI.ViewModel
         private bool OnSaveCanExecute()
         {
             //TODO:Che checkIn changes only if friend has changes
-            return Friend != null && !Friend.HasErrors && HasChanges;
+            return Friend != null && !Friend.HasErrors && PhoneNumbers.All(p=> !p.HasErrors) && HasChanges;
         }
 
         private async void OnSaveExecute()
