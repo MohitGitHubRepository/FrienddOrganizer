@@ -45,6 +45,7 @@
     <Compile Include="Friend.cs" />
     <Compile Include="LookUpItem.cs" />
     <Compile Include="Observable.cs" />
+    <Compile Include="ProgrammingLanguage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -39,7 +39,14 @@ namespace FrienddOrganizer.UI.Wrapper
                 SetValue<string>(value);
             }
         }
-
+        public int? ProgrammingLanguageID
+        {
+            get { return GetValue<int?>(nameof(ProgrammingLanguageID)); }
+            set
+            {
+                SetValue<int?>(value);
+            }
+        }
         //validation Logic
         protected override IEnumerable<string> ValidateProperty(string propertyName)
         {

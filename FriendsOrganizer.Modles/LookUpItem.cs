@@ -12,4 +12,10 @@ namespace FriendsOrganizer.Modles
 
         public string Desctiption { get; set; }
     }
+    public class NullLookUpItem: LookUpItem
+    {
+        public new int? Id { get; set; }
+
+         
+    }
 }

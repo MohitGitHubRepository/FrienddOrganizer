@@ -87,6 +87,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataService\LookupService\ILookupDataService.cs" />
+    <Compile Include="DataService\LookupService\IProgrammingLanguages.cs" />
     <Compile Include="DataService\LookupService\LookupDataService.cs" />
     <Compile Include="DataService\Repository\IFriendsRepository.cs" />
     <Compile Include="Events\NavigationPropertyDeleteEvent.cs" />

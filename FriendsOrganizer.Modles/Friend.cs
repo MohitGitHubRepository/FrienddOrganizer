@@ -21,5 +21,9 @@ namespace FriendsOrganizer.Modles
         [StringLength(50)]
         [EmailAddress]
         public string Email { get; set; }
+
+        public int? ProgrammingLanguageID { get; set; }
+
+        public virtual ProgrammingLanguage ProgrammingLanguage { get; set; }
     }
 }

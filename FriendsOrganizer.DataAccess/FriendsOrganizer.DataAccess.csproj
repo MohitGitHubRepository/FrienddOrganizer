@@ -52,9 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FriendSeviceDBContext.cs" />
-    <Compile Include="Migrations\202003041507025_InitialMigration.cs" />
-    <Compile Include="Migrations\202003041507025_InitialMigration.designer.cs">
-      <DependentUpon>202003041507025_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\202004201140076_InitialMigratoin.cs" />
+    <Compile Include="Migrations\202004201140076_InitialMigratoin.designer.cs">
+      <DependentUpon>202004201140076_InitialMigratoin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202004201145315_InitialSeed.cs" />
+    <Compile Include="Migrations\202004201145315_InitialSeed.designer.cs">
+      <DependentUpon>202004201145315_InitialSeed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,8 +76,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003041507025_InitialMigration.resx">
-      <DependentUpon>202003041507025_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202004201140076_InitialMigratoin.resx">
+      <DependentUpon>202004201140076_InitialMigratoin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004201145315_InitialSeed.resx">
+      <DependentUpon>202004201145315_InitialSeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
