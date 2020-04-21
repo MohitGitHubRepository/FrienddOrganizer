@@ -1,13 +1,10 @@
-﻿using FrienddOrganizer.UI.DataService;
-using FrienddOrganizer.UI.Events;
+﻿using FrienddOrganizer.UI.Events;
 using FrienddOrganizer.UI.Services;
 using FriendsOrganizer.Modles;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace FrienddOrganizer.UI.ViewModel
@@ -16,13 +13,15 @@ namespace FrienddOrganizer.UI.ViewModel
     {
         private IEventAggregator _eventAggregators;
         private IMessageDialogueService _IMessageDialogueService;
-        private IFriendDetailViewModel _friendDetailviewModel;
+        private IDetailViewModel _detailviewModel;
         public ICommand OnNewCreateCommand { get; }
 
-        public IFriendDetailViewModel FriendDetailViewModel
+        public IDetailViewModel detailViewModel
         {
-            get { return _friendDetailviewModel; }
-            set { _friendDetailviewModel = value;
+            get { return _detailviewModel; }
+            set
+            {
+                _detailviewModel = value;
                 OnPropertChange();
             }
         }
@@ -30,41 +29,53 @@ namespace FrienddOrganizer.UI.ViewModel
         public INavigationViewModel NavigationViewModel { get; }
         public Func<IFriendDetailViewModel> friendDetailViewModelcreator { get; set; }
 
-        public MainViewModel(INavigationViewModel  navigationViewModel, Func<IFriendDetailViewModel> IFriendDetailViewModel,
+        public MainViewModel(INavigationViewModel navigationViewModel, Func<IFriendDetailViewModel> IFriendDetailViewModel,
                              IEventAggregator eventAggregator, IMessageDialogueService IMessageDialogueService)
         {
             _eventAggregators = eventAggregator;
             _IMessageDialogueService = IMessageDialogueService;
             NavigationViewModel = navigationViewModel;
             friendDetailViewModelcreator = IFriendDetailViewModel;
-            _eventAggregators.GetEvent<OpenFriendDetailViewEvent>().Subscribe(OnEventRecieved);
-            _eventAggregators.GetEvent<NavigationPropertyDeleteEvent>().Subscribe(OnDeletetRecieved);
+            _eventAggregators.GetEvent<OpenDetailViewEvent>().Subscribe(OnEventRecieved);
+            _eventAggregators.GetEvent<DetailDeleteEvent>().Subscribe(OnDeletetRecieved);
             OnNewCreateCommand = new DelegateCommand(OnNewFriendAdd);
         }
 
-        private void OnDeletetRecieved(int obj)
+        private void OnDeletetRecieved(DeleteDetailEventArg args)
         {
-            FriendDetailViewModel = null;
+            switch(args.ViewModelName)
+            {
+                case nameof(FriendDetailViewModel):
+                    detailViewModel = null;
+                    break;
+            }
+          
         }
 
         private void OnNewFriendAdd()
         {
-            OnEventRecieved(null);
+            OnEventRecieved(new OpenDetailViewEventArg() { ViewModelName = nameof(FriendDetailViewModel) });
         }
 
-        private async void OnEventRecieved(int? FriendId)
+        private async void OnEventRecieved(OpenDetailViewEventArg args)
         {
-            if(FriendDetailViewModel!=null && FriendDetailViewModel.HasChanges)
+            if (detailViewModel != null && detailViewModel.HasChanges)
             {
                 var result = _IMessageDialogueService.SelectOKCancelMessageBox("You have unsaved changes.Navigate?", "Question");
 
-                if(result== MessageDialogueStatus.Cancel)
+                if (result == MessageDialogueStatus.Cancel)
                 {
                     return;
                 }
             }
-            FriendDetailViewModel = friendDetailViewModelcreator();
-            await FriendDetailViewModel.LoadAsync(FriendId);
+            switch(args.ViewModelName)
+            {
+                case nameof(FriendDetailViewModel):
+                    detailViewModel = friendDetailViewModelcreator();
+                    await detailViewModel.LoadAsync(args.Id);
+                    break;
+            }
+            
 
         }
 
@@ -72,9 +83,5 @@ namespace FrienddOrganizer.UI.ViewModel
         {
             await NavigationViewModel.LoadAsync();
         }
-       
-
-       
-
     }
 }

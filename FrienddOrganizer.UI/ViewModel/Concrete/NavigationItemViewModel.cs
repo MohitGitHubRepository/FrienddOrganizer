@@ -13,17 +13,22 @@ namespace FrienddOrganizer.UI.ViewModel
 {
     public class NavigationItemViewModel:Observable
     {
-        public NavigationItemViewModel(int id,string description,IEventAggregator eventAggregator)
+        public NavigationItemViewModel(int id,string description,IEventAggregator eventAggregator,string eventDaescription)
         {
             this.Id = id;
             this.Description = description;
+            _eventDaescription = eventDaescription;
             OpenFriendDetailViewCommand = new DelegateCommand(OnOpenFriendDetailView);
             _eventAggregator = eventAggregator;
         }
 
         private void OnOpenFriendDetailView()
         {
-           _eventAggregator.GetEvent<OpenFriendDetailViewEvent>().Publish(this.Id);
+           _eventAggregator.GetEvent<OpenDetailViewEvent>().Publish(new OpenDetailViewEventArg()
+           {
+               Id = this.Id,
+               ViewModelName = _eventDaescription
+           });
         }
 
         public int Id { get; set; }
@@ -37,6 +42,7 @@ namespace FrienddOrganizer.UI.ViewModel
             }
         }
 
+        private string _eventDaescription;
 
         public ICommand OpenFriendDetailViewCommand { get; }
 

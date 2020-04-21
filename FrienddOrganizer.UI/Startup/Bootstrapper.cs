@@ -20,7 +20,7 @@ namespace FrienddOrganizer.UI.Startup
             Builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
             Builder.RegisterType<MessageDialogueService>().As<IMessageDialogueService>();
             Builder.RegisterType<FriendDetailViewModel>().As<IFriendDetailViewModel>();
-            Builder.RegisterType<FriendsRepository>().As<IFriendsRepository>();
+            Builder.RegisterType<FriendsRepository>().As<IFriendRepositoryService>();
             Builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
             return Builder.Build();
         }

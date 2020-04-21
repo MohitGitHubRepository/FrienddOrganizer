@@ -30,7 +30,7 @@
             </Menu>
             <view:NavigationView Grid.Row="1" Grid.Column="0" DataContext="{Binding NavigationViewModel,Mode=OneWay}"> </view:NavigationView>
             <ScrollViewer Grid.Row="1"  Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                <ContentControl  Content="{Binding FriendDetailViewModel}"></ContentControl>
+                <ContentControl  Content="{Binding detailViewModel}"></ContentControl>
             </ScrollViewer>
 
         </Grid.Children>

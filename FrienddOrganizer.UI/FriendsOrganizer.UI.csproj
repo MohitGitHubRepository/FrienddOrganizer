@@ -90,19 +90,25 @@
     <Compile Include="DataService\LookupService\IProgrammingLanguages.cs" />
     <Compile Include="DataService\LookupService\LookupDataService.cs" />
     <Compile Include="DataService\Repository\IFriendsRepository.cs" />
+    <Compile Include="DataService\Repository\IRepositoryService.cs" />
+    <Compile Include="DataService\Repository\RepositoryBase.cs" />
+    <Compile Include="Events\EventArgs\DeleteDetailEventArg.cs" />
     <Compile Include="Events\NavigationPropertyDeleteEvent.cs" />
     <Compile Include="Events\NavigationPropertyUpdate.cs" />
-    <Compile Include="Events\NavigationPropertyUpdateArgs.cs" />
+    <Compile Include="Events\EventArgs\NavigationPropertyUpdateArgs.cs" />
     <Compile Include="Events\OpenFriendDetailViewEvent.cs" />
+    <Compile Include="Events\EventArgs\OplenDetailViewEventArg.cs" />
     <Compile Include="Services\IMessageDialogueService.cs" />
     <Compile Include="Services\MessageDialogueService.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
-    <Compile Include="ViewModel\FriendDetailViewModel.cs" />
-    <Compile Include="ViewModel\IFriendDetailViewModel.cs" />
-    <Compile Include="ViewModel\INavigationViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\NavigationItemViewModel.cs" />
-    <Compile Include="ViewModel\NavigationViewModel.cs" />
+    <Compile Include="ViewModel\Concrete\DetailViewModel.cs" />
+    <Compile Include="ViewModel\Concrete\FriendDetailViewModel.cs" />
+    <Compile Include="ViewModel\Abstract\IDetailViewModel.cs" />
+    <Compile Include="ViewModel\Abstract\IFriendDetailViewModel.cs" />
+    <Compile Include="ViewModel\Abstract\INavigationViewModel.cs" />
+    <Compile Include="ViewModel\Concrete\MainViewModel.cs" />
+    <Compile Include="ViewModel\Concrete\NavigationItemViewModel.cs" />
+    <Compile Include="ViewModel\Concrete\NavigationViewModel.cs" />
     <Compile Include="View\FriendDetailViewModel.xaml.cs">
       <DependentUpon>FriendDetailViewModel.xaml</DependentUpon>
     </Compile>

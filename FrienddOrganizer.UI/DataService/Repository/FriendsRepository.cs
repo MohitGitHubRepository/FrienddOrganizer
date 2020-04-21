@@ -1,54 +1,27 @@
 ﻿using FriendsOrganizer.DataAccess;
 using FriendsOrganizer.Modles;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FrienddOrganizer.UI.DataService.Repository
 {
-    public class FriendsRepository : IFriendsRepository
+    public class FriendsRepository : RepositoryBase<Friend, FriendSeviceDBContext>, IFriendRepositoryService
     {
-        private FriendSeviceDBContext _context;
-
-        public FriendsRepository(FriendSeviceDBContext  context)
+        public FriendsRepository(FriendSeviceDBContext context) : base(context)
         {
-            _context = context;
+
         }
 
-        public void AddFriend(Friend friend)
+        public override async Task<Friend> getById(int? Id)
         {
-           
-              _context.Friends.Add(friend);
-        }
-
-        public async  Task<Friend> getFriendById(int? Id)
-        {
-                return await _context.Friends
-                .Include(b => b.FriendPhoneNumbers).
-                SingleAsync(f=> f.Id==Id);
-        }
-        public bool HasChanges()
-        {
-            return _context.ChangeTracker.HasChanges();
-        }
-
-        public void RemoveFriend(Friend friend)
-        {
-             _context.Friends.Remove(friend);  
+            return await _context.Friends
+            .Include(b => b.FriendPhoneNumbers).
+            SingleAsync(f => f.Id == Id);
         }
 
         public void RemovePhoneNumber(FriendPhoneNumber model)
         {
             _context.FriendPhoneNumber.Remove(model);
-        }
-
-        public async Task SaveAsync()
-        {
-                await _context.SaveChangesAsync();
-                
         }
     }
 }
