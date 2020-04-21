@@ -29,9 +29,10 @@
                 </MenuItem>
             </Menu>
             <view:NavigationView Grid.Row="1" Grid.Column="0" DataContext="{Binding NavigationViewModel,Mode=OneWay}"> </view:NavigationView>
-            <ContentControl Grid.Row="1"  Grid.Column="1" Content="{Binding FriendDetailViewModel}"></ContentControl>
-            
-            
+            <ScrollViewer Grid.Row="1"  Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                <ContentControl  Content="{Binding FriendDetailViewModel}"></ContentControl>
+            </ScrollViewer>
+
         </Grid.Children>
     </Grid>
 </Window>

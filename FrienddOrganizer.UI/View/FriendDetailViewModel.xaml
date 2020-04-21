@@ -7,6 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -43,7 +44,7 @@
                 
             </DataGrid>
         </DockPanel>
-        <StackPanel Grid.Row="9" Orientation="Horizontal">
+        <StackPanel Grid.Row="9" Orientation="Horizontal" Margin="10">
             <Button Content="Save Friend" Margin="10 20 0 0" Height="Auto" VerticalAlignment="Center" Command="{Binding SaveCommand,Mode=OneWay}" />
             <Button Content="Delete Friend" Margin="10 20 0 0" Height="Auto" VerticalAlignment="Center" Command="{Binding DeleteCommand,Mode=OneWay}" />
         </StackPanel>
