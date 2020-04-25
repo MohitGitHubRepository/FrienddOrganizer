@@ -18,11 +18,11 @@ namespace FrienddOrganizer.UI.ViewModel
             this.Id = id;
             this.Description = description;
             _eventDaescription = eventDaescription;
-            OpenFriendDetailViewCommand = new DelegateCommand(OnOpenFriendDetailView);
+            OpenDetailViewCommand = new DelegateCommand(OnOpenDetailView);
             _eventAggregator = eventAggregator;
         }
 
-        private void OnOpenFriendDetailView()
+        private void OnOpenDetailView()
         {
            _eventAggregator.GetEvent<OpenDetailViewEvent>().Publish(new OpenDetailViewEventArg()
            {
@@ -44,7 +44,7 @@ namespace FrienddOrganizer.UI.ViewModel
 
         private string _eventDaescription;
 
-        public ICommand OpenFriendDetailViewCommand { get; }
+        public ICommand OpenDetailViewCommand { get; }
 
         private IEventAggregator _eventAggregator;
     }

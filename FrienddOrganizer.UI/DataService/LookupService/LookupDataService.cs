@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace FrienddOrganizer.UI.DataService.LookupService
 {
-    public class LookupDataService : ILookupDataService , IProgrammingLanguages
+    public class LookupDataService : ILookupDataService , IProgrammingLanguages,IMeetingLookupService
     {
         private Func<FriendSeviceDBContext> _context;
 
@@ -37,6 +37,17 @@ namespace FrienddOrganizer.UI.DataService.LookupService
                 {
                     Id = f.Id,
                     Desctiption = f.Name
+                }).AsNoTracking().ToListAsync();
+            }
+        }
+        public async Task<IEnumerable<LookUpItem>> getAllMeetingLookUpData()
+        {
+            using (var cntxt = _context())
+            {
+                return await cntxt.Meeting.Select(f => new LookUpItem()
+                {
+                    Id = f.Id,
+                    Desctiption = f.Title
                 }).AsNoTracking().ToListAsync();
             }
         }

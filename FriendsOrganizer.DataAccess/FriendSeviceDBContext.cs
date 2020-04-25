@@ -22,6 +22,9 @@ namespace FriendsOrganizer.DataAccess
 
         public DbSet<FriendPhoneNumber> FriendPhoneNumber { get; set; }
 
+        public DbSet<Meeting> Meeting { get; set; }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

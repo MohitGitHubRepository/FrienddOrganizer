@@ -80,6 +80,21 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.8.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.8.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -87,10 +102,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataService\LookupService\ILookupDataService.cs" />
+    <Compile Include="DataService\LookupService\IMeetingLookupService.cs" />
     <Compile Include="DataService\LookupService\IProgrammingLanguages.cs" />
     <Compile Include="DataService\LookupService\LookupDataService.cs" />
     <Compile Include="DataService\Repository\IFriendsRepository.cs" />
+    <Compile Include="DataService\Repository\IMeetingRepository.cs" />
     <Compile Include="DataService\Repository\IRepositoryService.cs" />
+    <Compile Include="DataService\Repository\MeetingRepository.cs" />
     <Compile Include="DataService\Repository\RepositoryBase.cs" />
     <Compile Include="Events\EventArgs\DeleteDetailEventArg.cs" />
     <Compile Include="Events\NavigationPropertyDeleteEvent.cs" />
@@ -101,22 +119,28 @@
     <Compile Include="Services\IMessageDialogueService.cs" />
     <Compile Include="Services\MessageDialogueService.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
+    <Compile Include="ViewModel\Abstract\IMeetingDetailViewModel.cs" />
     <Compile Include="ViewModel\Concrete\DetailViewModel.cs" />
     <Compile Include="ViewModel\Concrete\FriendDetailViewModel.cs" />
     <Compile Include="ViewModel\Abstract\IDetailViewModel.cs" />
     <Compile Include="ViewModel\Abstract\IFriendDetailViewModel.cs" />
     <Compile Include="ViewModel\Abstract\INavigationViewModel.cs" />
     <Compile Include="ViewModel\Concrete\MainViewModel.cs" />
+    <Compile Include="ViewModel\Concrete\MeetingDetailViewModel.cs" />
     <Compile Include="ViewModel\Concrete\NavigationItemViewModel.cs" />
     <Compile Include="ViewModel\Concrete\NavigationViewModel.cs" />
     <Compile Include="View\FriendDetailViewModel.xaml.cs">
       <DependentUpon>FriendDetailViewModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MeetingDetailView.xaml.cs">
+      <DependentUpon>MeetingDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Wrapper\FriendPhoneNumberWrapper.cs" />
     <Compile Include="Wrapper\FriendWrapper.cs" />
+    <Compile Include="Wrapper\MeetingWrapper.cs" />
     <Compile Include="Wrapper\ModelWrapper.cs" />
     <Compile Include="Wrapper\NotifyDataErrorInfo.cs" />
     <Page Include="MainWindow.xaml">
@@ -133,6 +157,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\FriendDetailViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MeetingDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

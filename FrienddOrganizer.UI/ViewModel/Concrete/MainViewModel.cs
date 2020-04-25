@@ -1,11 +1,15 @@
 ﻿using FrienddOrganizer.UI.Events;
 using FrienddOrganizer.UI.Services;
+using FrienddOrganizer.UI.ViewModel.Abstract;
+using FrienddOrganizer.UI.ViewModel.Concrete;
 using FriendsOrganizer.Modles;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using Autofac;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Autofac.Features.Indexed;
 
 namespace FrienddOrganizer.UI.ViewModel
 {
@@ -13,8 +17,9 @@ namespace FrienddOrganizer.UI.ViewModel
     {
         private IEventAggregator _eventAggregators;
         private IMessageDialogueService _IMessageDialogueService;
+       
         private IDetailViewModel _detailviewModel;
-        public ICommand OnNewCreateCommand { get; }
+        public ICommand OnNewFriendCreateCommand { get; }
 
         public IDetailViewModel detailViewModel
         {
@@ -27,18 +32,27 @@ namespace FrienddOrganizer.UI.ViewModel
         }
 
         public INavigationViewModel NavigationViewModel { get; }
-        public Func<IFriendDetailViewModel> friendDetailViewModelcreator { get; set; }
 
-        public MainViewModel(INavigationViewModel navigationViewModel, Func<IFriendDetailViewModel> IFriendDetailViewModel,
-                             IEventAggregator eventAggregator, IMessageDialogueService IMessageDialogueService)
+        private IIndex<string, IDetailViewModel> _detailviewmodel;
+
+        public Func<IFriendDetailViewModel> friendDetailViewModelcreator { get; set; }
+        public Func<IMeetingDetailViewModel> meetingDetailViewModelcreator { get; set; }
+        public DelegateCommand OnNewMeetingCreateCommand { get; }
+
+        public MainViewModel(INavigationViewModel navigationViewModel,
+                             IIndex<string,IDetailViewModel> IdetailViewModel,
+                             IEventAggregator eventAggregator, 
+                             IMessageDialogueService IMessageDialogueService)
         {
             _eventAggregators = eventAggregator;
             _IMessageDialogueService = IMessageDialogueService;
+          
             NavigationViewModel = navigationViewModel;
-            friendDetailViewModelcreator = IFriendDetailViewModel;
+            _detailviewmodel = IdetailViewModel;
             _eventAggregators.GetEvent<OpenDetailViewEvent>().Subscribe(OnEventRecieved);
             _eventAggregators.GetEvent<DetailDeleteEvent>().Subscribe(OnDeletetRecieved);
-            OnNewCreateCommand = new DelegateCommand(OnNewFriendAdd);
+            OnNewFriendCreateCommand = new DelegateCommand(OnNewFriendAdd);
+            OnNewMeetingCreateCommand = new DelegateCommand(OnNewMeetingAdd);
         }
 
         private void OnDeletetRecieved(DeleteDetailEventArg args)
@@ -48,6 +62,9 @@ namespace FrienddOrganizer.UI.ViewModel
                 case nameof(FriendDetailViewModel):
                     detailViewModel = null;
                     break;
+                case nameof(MeetingDetailViewModel):
+                    detailViewModel = null;
+                    break;
             }
           
         }
@@ -55,6 +72,10 @@ namespace FrienddOrganizer.UI.ViewModel
         private void OnNewFriendAdd()
         {
             OnEventRecieved(new OpenDetailViewEventArg() { ViewModelName = nameof(FriendDetailViewModel) });
+        }
+        private void OnNewMeetingAdd()
+        {
+            OnEventRecieved(new OpenDetailViewEventArg() { ViewModelName = nameof(MeetingDetailViewModel) });
         }
 
         private async void OnEventRecieved(OpenDetailViewEventArg args)
@@ -68,14 +89,8 @@ namespace FrienddOrganizer.UI.ViewModel
                     return;
                 }
             }
-            switch(args.ViewModelName)
-            {
-                case nameof(FriendDetailViewModel):
-                    detailViewModel = friendDetailViewModelcreator();
-                    await detailViewModel.LoadAsync(args.Id);
-                    break;
-            }
-            
+            detailViewModel = _detailviewmodel[args.ViewModelName];
+            await detailViewModel.LoadAsync(args.Id);
 
         }
 

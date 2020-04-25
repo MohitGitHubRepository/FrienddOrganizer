@@ -15,6 +15,7 @@ namespace FriendsOrganizer.Modles
         public Friend()
         {
             FriendPhoneNumbers = new Collection<FriendPhoneNumber>();
+            Meetings = new Collection<Meeting>();
         }
         [Required]
         [StringLength(50)]
@@ -32,5 +33,7 @@ namespace FriendsOrganizer.Modles
         public virtual ProgrammingLanguage ProgrammingLanguage { get; set; }
 
         public ICollection<FriendPhoneNumber> FriendPhoneNumbers { get; set; }
+
+        public ICollection<Meeting> Meetings { get; set; }
     }
 }

@@ -6,11 +6,15 @@
         xmlns:local="clr-namespace:FrienddOrganizer.UI"
         xmlns:view="clr-namespace:FrienddOrganizer.UI.View"
         xmlns:viewModel="clr-namespace:FrienddOrganizer.UI.ViewModel"
+         xmlns:viewModelConcrete="clr-namespace:FrienddOrganizer.UI.ViewModel.Concrete"
         mc:Ignorable="d"
         Title="FriendOrganizer" Height="450" Width="800">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:FriendDetailViewModel}">
             <view:FriendDetailViewModel/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModelConcrete:MeetingDetailViewModel}">
+            <view:MeetingDetailView/>
         </DataTemplate>
     </Window.Resources>
     <Grid>
@@ -25,7 +29,8 @@
         <Grid.Children>
             <Menu Grid.Row="0" Grid.ColumnSpan="2">
                 <MenuItem Header="Create">
-                    <MenuItem Header="New Friend" Command="{Binding OnNewCreateCommand,Mode=OneWay}"/>
+                    <MenuItem Header="New Friend" Command="{Binding OnNewFriendCreateCommand,Mode=OneWay}"/>
+                    <MenuItem Header="New Meeting" Command="{Binding OnNewMeetingCreateCommand,Mode=OneWay}"/>
                 </MenuItem>
             </Menu>
             <view:NavigationView Grid.Row="1" Grid.Column="0" DataContext="{Binding NavigationViewModel,Mode=OneWay}"> </view:NavigationView>
