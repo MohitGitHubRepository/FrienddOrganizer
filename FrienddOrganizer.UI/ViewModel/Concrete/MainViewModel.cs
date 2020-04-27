@@ -10,6 +10,7 @@ using Autofac;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Autofac.Features.Indexed;
+using System.Collections.ObjectModel;
 
 namespace FrienddOrganizer.UI.ViewModel
 {
@@ -18,15 +19,15 @@ namespace FrienddOrganizer.UI.ViewModel
         private IEventAggregator _eventAggregators;
         private IMessageDialogueService _IMessageDialogueService;
        
-        private IDetailViewModel _detailviewModel;
+        public ObservableCollection<IDetailViewModel> CollectionDetailviewModel { get; }
         public ICommand OnNewFriendCreateCommand { get; }
 
-        public IDetailViewModel detailViewModel
+        public IDetailViewModel selectedDetailViewModel
         {
-            get { return _detailviewModel; }
+            get { return _selectedDetailViewModel; }
             set
             {
-                _detailviewModel = value;
+                _selectedDetailViewModel = value;
                 OnPropertChange();
             }
         }
@@ -34,6 +35,7 @@ namespace FrienddOrganizer.UI.ViewModel
         public INavigationViewModel NavigationViewModel { get; }
 
         private IIndex<string, IDetailViewModel> _detailviewmodel;
+        private IDetailViewModel _selectedDetailViewModel;
 
         public Func<IFriendDetailViewModel> friendDetailViewModelcreator { get; set; }
         public Func<IMeetingDetailViewModel> meetingDetailViewModelcreator { get; set; }
@@ -53,6 +55,7 @@ namespace FrienddOrganizer.UI.ViewModel
             _eventAggregators.GetEvent<DetailDeleteEvent>().Subscribe(OnDeletetRecieved);
             OnNewFriendCreateCommand = new DelegateCommand(OnNewFriendAdd);
             OnNewMeetingCreateCommand = new DelegateCommand(OnNewMeetingAdd);
+            CollectionDetailviewModel = new ObservableCollection<IDetailViewModel>();
         }
 
         private void OnDeletetRecieved(DeleteDetailEventArg args)
@@ -60,10 +63,10 @@ namespace FrienddOrganizer.UI.ViewModel
             switch(args.ViewModelName)
             {
                 case nameof(FriendDetailViewModel):
-                    detailViewModel = null;
+                    selectedDetailViewModel = null;
                     break;
                 case nameof(MeetingDetailViewModel):
-                    detailViewModel = null;
+                    selectedDetailViewModel = null;
                     break;
             }
           
@@ -80,7 +83,7 @@ namespace FrienddOrganizer.UI.ViewModel
 
         private async void OnEventRecieved(OpenDetailViewEventArg args)
         {
-            if (detailViewModel != null && detailViewModel.HasChanges)
+            if (selectedDetailViewModel != null && selectedDetailViewModel.HasChanges)
             {
                 var result = _IMessageDialogueService.SelectOKCancelMessageBox("You have unsaved changes.Navigate?", "Question");
 
@@ -89,8 +92,8 @@ namespace FrienddOrganizer.UI.ViewModel
                     return;
                 }
             }
-            detailViewModel = _detailviewmodel[args.ViewModelName];
-            await detailViewModel.LoadAsync(args.Id);
+            selectedDetailViewModel = _detailviewmodel[args.ViewModelName];
+            await selectedDetailViewModel.LoadAsync(args.Id);
 
         }
 

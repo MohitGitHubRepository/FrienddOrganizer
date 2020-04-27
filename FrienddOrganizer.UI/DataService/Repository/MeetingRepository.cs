@@ -24,8 +24,10 @@ namespace FrienddOrganizer.UI.DataService.Repository
                 SingleAsync(m => m.Id == Id);
         }
 
-
-
-
+        public async Task<IEnumerable<Friend>> getFriendList()
+        {
+            return await _context.Friends
+                        .ToListAsync();
+        }
     }
 }

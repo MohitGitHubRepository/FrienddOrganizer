@@ -9,6 +9,6 @@ namespace FrienddOrganizer.UI.DataService.Repository
 {
     public interface IMeetingRepository:IRepositoryBase<Meeting>
     {
-       
+        Task<IEnumerable<Friend>> getFriendList();
     }
 }

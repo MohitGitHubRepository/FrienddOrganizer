@@ -35,7 +35,7 @@
             </Menu>
             <view:NavigationView Grid.Row="1" Grid.Column="0" DataContext="{Binding NavigationViewModel,Mode=OneWay}"> </view:NavigationView>
             <ScrollViewer Grid.Row="1"  Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                <ContentControl  Content="{Binding detailViewModel}"></ContentControl>
+                <ContentControl  Content="{Binding selectedDetailViewModel}"></ContentControl>
             </ScrollViewer>
 
         </Grid.Children>

@@ -33,5 +33,11 @@ namespace FrienddOrganizer.UI.Wrapper
             set { SetValue<DateTime>(value, nameof(EndDate)); }
         }
 
+        public IEnumerable<Friend> Friends
+        {
+            get { return GetValue<IEnumerable<Friend>>(nameof(Friends)); }
+            set { SetValue<IEnumerable<Friend>>(value, nameof(Friends)); }
+        }
+
     }
 }
